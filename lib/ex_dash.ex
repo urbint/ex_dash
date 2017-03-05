@@ -1,18 +1,12 @@
 defmodule ExDash do
   @moduledoc """
-  Documentation for ExDash.
+  ExDash provides a formatter and mix task for converting your elixir project into Dash documentation.
   """
 
   @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ExDash.hello
-      :world
 
   """
-  def hello do
-    :world
+  def run() do
+    IO.inspect "hello!"
   end
 end
