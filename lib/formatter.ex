@@ -38,7 +38,133 @@ defmodule ExDash.Formatter do
 
     ExDoc.Formatter.HTML.run(project_nodes, config)
 
+    inject_dash_anchors(config.output)
+    # close sidebars
+
     formatter_opts[:docset_root]
+  end
+
+  defp inject_dash_anchors(output_dir) do
+    File.ls!(output_dir)
+    |> Stream.filter(&String.ends_with?(&1, ".html"))
+    |> Stream.map(&Path.join(output_dir, &1))
+    |> Enum.map(&inject_dash_anchors_for_file/1)
+  end
+
+  defp inject_dash_anchors_for_file(filename) do
+    injected =
+      File.read!(filename)
+      |> inject_anchors()
+
+    File.write(filename, injected)
+  end
+
+  defp inject_anchors(html_content) do
+    type_ids =
+      find_type_ids(html_content)
+
+    function_ids =
+      find_function_ids(html_content)
+
+    macro_ids =
+      find_macro_ids(html_content)
+
+    callback_ids =
+      find_callback_ids(html_content)
+
+    html_content
+    |> inject_type_anchors(type_ids)
+    |> inject_function_anchors(function_ids)
+    |> inject_callback_anchors(callback_ids)
+    |> inject_macro_anchors(macro_ids)
+  end
+
+  defp find_function_ids(html_content) do
+    html_content
+    |> Floki.find(".details-list#functions .detail")
+    |> case do
+      [] ->
+        []
+      types ->
+        types
+        |> Enum.map(&Floki.attribute(&1, "id"))
+    end
+    |> Enum.flat_map(&(&1))
+  end
+
+  defp inject_function_anchors(html_content, []), do: html_content
+  defp inject_function_anchors(html_content, [function_id | rest] = _function_ids) do
+    function_name =
+      type_id
+      |> String.replace("t:", "")
+      |> String.replace(~r/\/\d+$/, "")
+
+    anchor_string =
+      "<a href=\"##{type_id}\""
+
+    inject = """
+      <a name="//apple_ref/cpp/Type/#{type}" class="dashAnchor"></a>
+      #{anchor_string}
+    """
+
+    updated_html_content =
+      html_content
+      |> String.replace(anchor_string, inject)
+
+    inject_type_anchors(updated_html_content, rest)
+  end
+
+  defp find_callback_ids(html_content) do
+    html_content
+  end
+
+  defp inject_callback_anchors(html_content, []), do: html_content
+  defp inject_callback_anchors(html_content, [callback_id | rest] = _callback_ids) do
+    html_content
+  end
+
+  defp find_macro_ids(html_content) do
+    html_content
+  end
+
+  defp inject_macro_anchors(html_content, []), do: html_content
+  defp inject_macro_anchors(html_content, [macro_id | rest] = _macro_ids) do
+    html_content
+  end
+
+  defp inject_type_anchors(html_content, []), do: html_content
+  defp inject_type_anchors(html_content, [type_id | rest] = _type_ids) do
+    type =
+      type_id
+      |> String.replace("t:", "")
+      |> String.replace(~r/\/\d+$/, "")
+
+    anchor_string =
+      "<a href=\"##{type_id}\""
+
+    inject = """
+      <a name="//apple_ref/cpp/Type/#{type}" class="dashAnchor"></a>
+      #{anchor_string}
+    """
+
+    updated_html_content =
+      html_content
+      |> String.replace(anchor_string, inject)
+
+    inject_type_anchors(updated_html_content, rest)
+  end
+
+  defp find_type_ids(html_content) do
+    html_content
+    |> Floki.find(".types-list .detail")
+    |> case do
+      [] ->
+        []
+      types ->
+        types
+        |> Enum.map(&Floki.attribute(&1, "id"))
+    end
+    |> Enum.flat_map(&(&1))
   end
 
   defp log(path) do
