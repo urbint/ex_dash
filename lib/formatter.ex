@@ -90,32 +90,34 @@ defmodule ExDash.Formatter do
         |> Enum.map(&Floki.attribute(&1, "id"))
     end
     |> Enum.flat_map(&(&1))
+    |> IO.inspect
   end
 
   defp inject_function_anchors(html_content, []), do: html_content
   defp inject_function_anchors(html_content, [function_id | rest] = _function_ids) do
-    function_name =
-      type_id
-      |> String.replace("t:", "")
-      |> String.replace(~r/\/\d+$/, "")
+    escaped_function_id =
+      function_id
+      |> URI.encode_www_form()
+      |> IO.inspect
 
     anchor_string =
-      "<a href=\"##{type_id}\""
+      "<a href=\"##{function_id}\" class=\"detail-link\""
 
     inject = """
-      <a name="//apple_ref/cpp/Type/#{type}" class="dashAnchor"></a>
+      <a name="//apple_ref/cpp/Function/#{escaped_function_id}" class="dashAnchor"></a>
       #{anchor_string}
     """
+    |> IO.inspect
 
     updated_html_content =
       html_content
       |> String.replace(anchor_string, inject)
 
-    inject_type_anchors(updated_html_content, rest)
+    inject_function_anchors(updated_html_content, rest)
   end
 
   defp find_callback_ids(html_content) do
-    html_content
+    []
   end
 
   defp inject_callback_anchors(html_content, []), do: html_content
@@ -124,7 +126,7 @@ defmodule ExDash.Formatter do
   end
 
   defp find_macro_ids(html_content) do
-    html_content
+    []
   end
 
   defp inject_macro_anchors(html_content, []), do: html_content
@@ -140,7 +142,7 @@ defmodule ExDash.Formatter do
       |> String.replace(~r/\/\d+$/, "")
 
     anchor_string =
-      "<a href=\"##{type_id}\""
+      "<a href=\"##{type_id}\" class=\"detail-link\""
 
     inject = """
       <a name="//apple_ref/cpp/Type/#{type}" class="dashAnchor"></a>
@@ -235,7 +237,6 @@ defmodule ExDash.Formatter do
         :defcallback -> "Callback"
         _ -> "Record"
       end
-      |> IO.inspect(label: :node_type)
 
     database
     |> SQLite.index_item("#{module}.#{node.id}", type, "#{module}.html##{node.id}")
