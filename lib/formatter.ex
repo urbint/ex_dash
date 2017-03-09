@@ -7,6 +7,22 @@ defmodule ExDash.Formatter do
   alias ExDash.SQLite
   alias ExDoc.Formatter.HTML.Autolink
 
+  @ex_doc_html_match_and_replace [
+    {
+      "<section class=\"content\"",
+      "<section class=\"content\" style=\"padding-left: 0\""
+    }, {
+      "<button class=\"sidebar-toggle\">",
+      "<button class=\"sidebar-toggle\" style=\"visibility: hidden\">"
+    }, {
+      "<section class=\"sidebar\"",
+      "<section class=\"sidebar\" style=\"visibility: hidden\""
+    }, {
+      "<div id=\"content\" class=\"content-inner\">",
+      "<div id=\"content\" class=\"content-inner\" style=\"margin: 0; padding: 3px 10px\">"
+    }
+  ]
+
   @spec run(list, ExDoc.Config.t) :: String.t
   def run(project_nodes, config) when is_map(config) do
     {config, formatter_opts} = init_docset(config)
@@ -52,121 +68,86 @@ defmodule ExDash.Formatter do
   end
 
   defp inject_dash_anchors_for_file(filename) do
-    injected =
+    html_content =
       File.read!(filename)
-      |> inject_anchors()
-
-    File.write(filename, injected)
-  end
-
-  defp inject_anchors(html_content) do
-    type_ids =
-      find_type_ids(html_content)
-
-    function_ids =
-      find_function_ids(html_content)
-
-    macro_ids =
-      find_macro_ids(html_content)
-
-    callback_ids =
-      find_callback_ids(html_content)
-
-    html_content
-    |> inject_type_anchors(type_ids)
-    |> inject_function_anchors(function_ids)
-    |> inject_callback_anchors(callback_ids)
-    |> inject_macro_anchors(macro_ids)
-  end
-
-  defp find_function_ids(html_content) do
-    html_content
-    |> Floki.find(".details-list#functions .detail")
-    |> case do
-      [] ->
-        []
-      types ->
-        types
-        |> Enum.map(&Floki.attribute(&1, "id"))
-    end
-    |> Enum.flat_map(&(&1))
-    |> IO.inspect
-  end
-
-  defp inject_function_anchors(html_content, []), do: html_content
-  defp inject_function_anchors(html_content, [function_id | rest] = _function_ids) do
-    escaped_function_id =
-      function_id
-      |> URI.encode_www_form()
-      |> IO.inspect
-
-    anchor_string =
-      "<a href=\"##{function_id}\" class=\"detail-link\""
-
-    inject = """
-      <a name="//apple_ref/cpp/Function/#{escaped_function_id}" class="dashAnchor"></a>
-      #{anchor_string}
-    """
-    |> IO.inspect
 
     updated_html_content =
-      html_content
-      |> String.replace(anchor_string, inject)
+      [:function, :type]
+      |> Enum.reduce(html_content, fn id, html_content ->
+        inject_anchors(html_content, id)
+      end)
+      |> perform_obscene_html_regex_replace(@ex_doc_html_match_and_replace)
 
-    inject_function_anchors(updated_html_content, rest)
+    File.write(filename, updated_html_content)
   end
 
-  defp find_callback_ids(html_content) do
-    []
+  defp perform_obscene_html_regex_replace(html_content, match_and_replace) do
+    match_and_replace
+    |> Enum.reduce(html_content, fn {match, replace}, html_content ->
+      String.replace(html_content, match, replace)
+    end)
   end
 
-  defp inject_callback_anchors(html_content, []), do: html_content
-  defp inject_callback_anchors(html_content, [callback_id | rest] = _callback_ids) do
+  defp inject_anchors(html_content, dash_type) do
+    find_ids(dash_type, html_content)
+    |> Enum.map(&anchor_and_injection(dash_type, &1))
+    |> Enum.reduce(html_content, fn
+      {anchor, injection}, html_content ->
+        html_content |> String.replace(anchor, injection)
+    end)
+  end
+
+  defp find_ids(dash_type, html_content) do
+    list_selector =
+      case dash_type do
+        :function -> ".details-list#functions .detail"
+        :type -> ".types-list .detail"
+        :callback -> ".types-list .detail"
+        :macro -> ".types-list .detail"
+      end
+
+    id_parser =
+      case dash_type do
+        :function -> &Floki.attribute(&1, "id")
+        :type -> &Floki.attribute(&1, "id")
+      end
+
     html_content
+    |> Floki.find(list_selector)
+    |> case do
+      [] -> []
+      types ->
+        types |> Enum.map(&id_parser.(&1))
+    end
+    |> Enum.flat_map(&(&1))
   end
 
-  defp find_macro_ids(html_content) do
-    []
-  end
-
-  defp inject_macro_anchors(html_content, []), do: html_content
-  defp inject_macro_anchors(html_content, [macro_id | rest] = _macro_ids) do
-    html_content
-  end
-
-  defp inject_type_anchors(html_content, []), do: html_content
-  defp inject_type_anchors(html_content, [type_id | rest] = _type_ids) do
-    type =
-      type_id
-      |> String.replace("t:", "")
-      |> String.replace(~r/\/\d+$/, "")
+  defp anchor_and_injection(dash_type, id) do
+    escaped_id =
+      case dash_type do
+        :function ->
+          id |> URI.encode_www_form()
+        :type ->
+          id
+          |> String.replace("t:", "")
+          |> String.replace(~r/\/\d+$/, "")
+      end
 
     anchor_string =
-      "<a href=\"##{type_id}\" class=\"detail-link\""
+      "<a href=\"##{id}\" class=\"detail-link\""
+
+    dash_anchor_label =
+      case dash_type do
+        :function -> "Function"
+        :type -> "Type"
+      end
 
     inject = """
-      <a name="//apple_ref/cpp/Type/#{type}" class="dashAnchor"></a>
+      <a name="//apple_ref/cpp/#{dash_anchor_label}/#{escaped_id}" class="dashAnchor"></a>
       #{anchor_string}
     """
 
-    updated_html_content =
-      html_content
-      |> String.replace(anchor_string, inject)
-
-    inject_type_anchors(updated_html_content, rest)
-  end
-
-  defp find_type_ids(html_content) do
-    html_content
-    |> Floki.find(".types-list .detail")
-    |> case do
-      [] ->
-        []
-      types ->
-        types
-        |> Enum.map(&Floki.attribute(&1, "id"))
-    end
-    |> Enum.flat_map(&(&1))
+    {anchor_string, inject}
   end
 
   defp log(path) do
