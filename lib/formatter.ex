@@ -31,9 +31,6 @@ defmodule ExDash.Formatter do
 
     SQLite.create_index(database)
 
-    # TODO generate assets
-    # TODO generate icon
-
     linked = Autolink.all(project_nodes, ".html", config.deps)
     nodes_map = %{
       modules: filter_list(:modules, linked),
@@ -44,8 +41,6 @@ defmodule ExDash.Formatter do
     index_nodes(nodes_map, database)
 
     generate_extras(config.output, config, database, linked)
-
-    # generate sql data for overview
 
     content =
       info_plist_content(config)
