@@ -1,7 +1,9 @@
-defmodule ExDash.SQLite do
-  @moduledoc ~S"""
+defmodule ExDash.Formatter.Docset.SQLite do
+  @moduledoc """
   Execute an SQL query using the sqlite3 command line utility.
+
   """
+
   defmodule SQLError do
     defexception message: "default message", exit_code: 1
   end
@@ -18,25 +20,38 @@ defmodule ExDash.SQLite do
 
   @spec index_item(Map.t, String.t, String.t, String.t) :: :ok
   def index_item(db, name, type, path) do
-    query = "INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES ('#{name}', '#{type}', '#{path}');"
+    query =
+      "INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES ('#{name}', '#{type}', '#{path}');"
+
     exec!(db, query)
     :ok
   end
+
 
   @doc ~S"""
   Executes given query onto a database.
 
     {:ok, results} = ExDocDash.SQLite.exec("my.db", "SELECT * from something")
     IO.format("Results: #{results}")
+
   """
   @spec exec!(String.t, query) :: query_result
   def exec!(database, query) do
-    args = [database, query]
-    options = [stderr_to_stdout: true]
+    args =
+      [database, query]
+
+    options =
+      [stderr_to_stdout: true]
+
     case System.cmd("sqlite3", args, options) do
-      {results, 0}                  -> results
-      {"Error: "<>error, exit_code} -> raise SQLError, message: error, exit_code: exit_code
-      {error, exit_code}            -> raise SQLError, message: "#{error}", exit_code: exit_code
+      {results, 0} ->
+        results
+
+      {"Error: " <> error, exit_code} ->
+        raise(SQLError, message: error, exit_code: exit_code)
+
+      {error, exit_code} ->
+        raise(SQLError, message: "#{error}", exit_code: exit_code)
     end
   end
 
