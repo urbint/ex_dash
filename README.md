@@ -5,11 +5,7 @@ ExDash seamlessly integrates the docs in your local elixir projects with your Da
 ExDash provides a mix task that rebuilds a Dash Docset for your local Elixir project.
 
 ```bash
-# rebuild a basic elixir app
 mix docs.dash
-
-# rebuild an umbrella app
-mix do docs.dash
 ```
 
 ## The Dream
@@ -51,13 +47,6 @@ ExDash currently provides a mix task that rebuilds the docset for your local app
 mix docs.dash
 ```
 
-In an umbrella app, you'll need to provide a command to run it in all the sub apps.
-
-```
-mix do docs.dash
-TODO: auto-magically handle umbrella apps with same command
-```
-
 From there, you can open that docset on your machine to refresh the Dash contents.
 
 - TODO: flag for auto-opening
@@ -82,7 +71,7 @@ and uses those pages as the source pages for showing the documentation.
 Outside of that, Dash docsets rely on two things:
 
   - a SQLite database for search
-  - `dashAnchors` injected into the docs pages, to populate the table of contents along the left side of Dash's view
+  - Dash "anchors" injected into the docs pages, to populate the table of contents along the left side of Dash's view. Currently Functions, Types, Callbacks, and Macros are supported.
 
 These are run in succession in `ExDash.Formatter`.
 See `ExDash.Formatter.Docset` and `ExDash.Formatter.Injector` for more.
