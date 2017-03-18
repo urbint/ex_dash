@@ -10,7 +10,8 @@ mix docs.dash
 
 ## The Dream
 
-The [Alfred](https://www.alfredapp.com/) + [Dash](https://kapeli.com/dash) integration for fast doc searching has become an integral part of our workflow at [Urbint](https://github.com/urbint).
+The [Alfred](https://www.alfredapp.com/) + [Dash](https://kapeli.com/dash) integration
+for fast doc searching has become an integral part of our workflow at [Urbint](https://github.com/urbint).
 
 Once our app reached a certain size,
 we wanted to be able to search our own internal documentation as easily as the public Hex docs.
@@ -35,9 +36,11 @@ end
 ### Dependencies
 
 Dash Docsets include a SQLite table, and as such,
-this task requires sqlite to run build that table.
+this task expects `sqlite3` to be available.
 
-- TODO how to get dependencies
+```
+brew install sqlite3
+```
 
 ## Usage
 
