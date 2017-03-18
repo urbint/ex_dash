@@ -22,7 +22,25 @@ defmodule ExDash.Formatter.Injector.Function do
     id_parser =
       &Floki.attribute(&1, "id")
 
-    Injector.find_ids_in_list(html_content, list_selector, id_parser)
+    html_content
+    |> Floki.find(list_selector)
+    |> case do
+      [] -> []
+      functions ->
+        functions
+        |> Stream.reject(&has_macro_note/1)
+        |> Enum.map(&id_parser.(&1))
+    end
+    |> Enum.flat_map(&(&1))
+  end
+
+  @spec has_macro_note(Injector.html_content) :: boolean
+  defp has_macro_note(detail) do
+    note_text =
+      Floki.find(detail, ".detail-header span.note")
+      |> Floki.text()
+
+    String.contains?(note_text, "macro")
   end
 
 
@@ -42,7 +60,7 @@ defmodule ExDash.Formatter.Injector.Function do
       "Function"
 
     replacement_string = """
-      <a name="//apple_ref/cpp/#{dash_anchor_label}/#{escaped_id}" class="dashAnchor"></a>
+      <a name="//apple_ref/#{dash_anchor_label}/#{escaped_id}" class="dashAnchor"></a>
       #{match_string}
     """
 

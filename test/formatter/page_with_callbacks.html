@@ -305,6 +305,36 @@
   </section>
 </div>
 
+<div class="detail" id="scopes/1">
+
+  <div class="detail-header">
+    <a name="//apple_ref/cpp/Function/scopes%2F1" class="dashAnchor"></a>
+    <a href="#scopes/1" class="detail-link" title="Link to this macro">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">scopes(req_scopes)</span>
+
+
+    <span class="note">(macro)</span>
+
+
+  </div>
+  <section class="docstring">
+    <p>Allows a module to set scopes as a meta object on fields with no fuss.</p>
+    <h2 id="scopes/1-usage" class="section-heading">
+      <a href="#scopes/1-usage" class="hover-link"><i class="icon-link"></i></a>
+      Usage
+    </h2>
+
+    <pre><code class="elixir hljs">query <span class="hljs-keyword">do</span>
+        field <span class="hljs-symbol">:my_secret_query</span>, <span class="hljs-symbol">:secret</span>, <span class="hljs-symbol">description:</span> <span class="hljs-string">""</span> <span class="hljs-keyword">do</span>
+        scopes <span class="hljs-symbol">:admin_priviledges</span>
+        <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span></code></pre>
+
+  </section>
+</div>
+
         </section>
 
 

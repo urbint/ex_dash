@@ -16,13 +16,13 @@ defmodule ExDash.Formatter.Injector do
   """
 
   alias Floki
-  alias ExDash.Formatter.Injector.{Type,Function}
+  alias ExDash.Formatter.Injector.{Type,Function,Callback,Macro}
 
   @type doc_path :: String.t
   @type id :: String.t
   @type html_content :: String.t
 
-  @dash_anchor_injectors [Type, Function]
+  @dash_anchor_injectors [Type, Function, Callback, Macro]
 
   # Injector callbacks
   @callback find_ids(html_content) :: [id]

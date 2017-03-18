@@ -19,7 +19,7 @@ defmodule ExDash.Formatter.InjectorTest do
       ["find_ids/1", "match_and_anchor/1"]
 
     macro_ids =
-      []
+      ["scopes/1"]
 
     {:ok, content: content,
      type_ids: type_ids,
@@ -42,7 +42,7 @@ defmodule ExDash.Formatter.InjectorTest do
         Type.match_and_anchor(type_id)
 
       assert match == "<a href=\"#t:doc_path/0\" class=\"detail-link\""
-      assert replacement == "  <a name=\"//apple_ref/cpp/Type/doc_path\" class=\"dashAnchor\"></a>\n  <a href=\"#t:doc_path/0\" class=\"detail-link\"\n"
+      assert replacement == "  <a name=\"//apple_ref/Type/doc_path\" class=\"dashAnchor\"></a>\n  <a href=\"#t:doc_path/0\" class=\"detail-link\"\n"
     end
   end
 
@@ -59,7 +59,7 @@ defmodule ExDash.Formatter.InjectorTest do
         Function.match_and_anchor(function_id)
 
       assert match == "<a href=\"#find_ids_in_list/3\" class=\"detail-link\""
-      assert replacement == "  <a name=\"//apple_ref/cpp/Function/find_ids_in_list%2F3\" class=\"dashAnchor\"></a>\n  <a href=\"#find_ids_in_list/3\" class=\"detail-link\"\n"
+      assert replacement == "  <a name=\"//apple_ref/Function/find_ids_in_list%2F3\" class=\"dashAnchor\"></a>\n  <a href=\"#find_ids_in_list/3\" class=\"detail-link\"\n"
     end
   end
 
@@ -76,12 +76,11 @@ defmodule ExDash.Formatter.InjectorTest do
         Callback.match_and_anchor(callback_id)
 
       assert match == "<a href=\"#c:find_ids/1\" class=\"detail-link\""
-      assert replacement == "  <a name=\"//apple_ref/cpp/Callback/find_ids%2F1\" class=\"dashAnchor\"></a>\n  <a href=\"#c:find_ids/1\" class=\"detail-link\"\n"
+      assert replacement == "  <a name=\"//apple_ref/Callback/find_ids%2F1\" class=\"dashAnchor\"></a>\n  <a href=\"#c:find_ids/1\" class=\"detail-link\"\n"
     end
   end
 
   describe "Macro Injector" do
-    # TODO add macro to fixture
     test "fetches macro ids", %{content: content, macro_ids: macro_ids} do
       ids =
         Macro.find_ids(content)
@@ -89,7 +88,12 @@ defmodule ExDash.Formatter.InjectorTest do
       assert ids == macro_ids
     end
 
-    # test "builds matches and replacements", %{macro_ids: [macro_id | _rest]} do
-    # end
+    test "builds matches and replacements", %{macro_ids: [macro_id | _rest]} do
+      {match, replacement} =
+        Macro.match_and_anchor(macro_id)
+
+      assert match == "<a href=\"#scopes/1\" class=\"detail-link\""
+      assert replacement == "  <a name=\"//apple_ref/Macro/scopes%2F1\" class=\"dashAnchor\"></a>\n  <a href=\"#scopes/1\" class=\"detail-link\"\n"
+    end
   end
 end

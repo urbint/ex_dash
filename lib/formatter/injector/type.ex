@@ -44,7 +44,7 @@ defmodule ExDash.Formatter.Injector.Type do
       "Type"
 
     replacement_string = """
-      <a name="//apple_ref/cpp/#{dash_anchor_label}/#{escaped_id}" class="dashAnchor"></a>
+      <a name="//apple_ref/#{dash_anchor_label}/#{escaped_id}" class="dashAnchor"></a>
       #{match_string}
     """
 
