@@ -50,10 +50,13 @@ ExDash currently provides a mix task that rebuilds the docset for your local app
 mix docs.dash
 ```
 
-From there, you can open that docset on your machine to refresh the Dash contents.
+To auto-open the docset after it is generated, you can pass `--open` to the task.
 
-- TODO: flag for auto-opening
-- TODO: flag for auto-moving it into the proper Dash folder if it exists already
+```
+mix docs.dash --open
+```
+
+- TODO: flag for auto-moving it into the proper Dash folder, rather than opening it
 
 ### A git-hook, perhaps?
 
