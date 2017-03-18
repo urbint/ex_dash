@@ -7,7 +7,10 @@ defmodule ExDash.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+     package: package(),
+     description: description(),
+    ]
   end
 
   # Configuration for the OTP application
@@ -31,6 +34,20 @@ defmodule ExDash.Mixfile do
     [
       {:ex_doc, "~> 0.15"},
       {:floki, "~> 0.14.0"},
+    ]
+  end
+
+  defp description do
+    """
+    ExDash builds a Dash Docset with your local Elixir app.
+    """
+  end
+
+  defp package do
+    [
+     maintainers: ["Russell Matney"],
+     licenses: ["MIT"],
+     links: %{"GitHub" => "https://github.com/russmatney/ex_dash"}
     ]
   end
 end

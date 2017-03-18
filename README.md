@@ -36,6 +36,13 @@ def deps do
 end
 ```
 
+### Dependencies
+
+Dash Docsets include a SQLite table, and as such,
+this task requires sqlite to run build that table.
+
+- TODO how to get dependencies
+
 ## Usage
 
 ExDash currently provides a mix task that rebuilds the docset for your local app.
