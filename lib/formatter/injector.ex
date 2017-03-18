@@ -2,9 +2,9 @@ defmodule ExDash.Formatter.Injector do
   @moduledoc """
   Injector sets Dash Anchors and makes style tweaks to passed ExDoc HTML files.
 
-  Dash Anchors are used within Dash to populate meta types per module.
+  Dash Anchors are used within Dash to build the Table of Contents per page.
 
-  Currently supported meta types:
+  Currently supported:
 
     - Types
     - Functions
