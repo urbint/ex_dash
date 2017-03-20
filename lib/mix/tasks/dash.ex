@@ -7,8 +7,6 @@ defmodule Mix.Tasks.Docs.Dash do
 
   alias Mix.Tasks.Docs
 
-  @recursive true
-
   @auto_open_flags ["--open", "-o"]
 
   @type args :: [String.t]

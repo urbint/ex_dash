@@ -8,6 +8,13 @@ defmodule ExDash.Formatter do
 
   @spec run(list, ExDoc.Config.t) :: String.t
   def run(project_nodes, config) when is_map(config) do
+    config =
+      if config.project == "" do
+        %{config | project: "umbrella"}
+      else
+        config
+      end
+
     {config, docset_root_path} =
       Docset.build(project_nodes, config)
 

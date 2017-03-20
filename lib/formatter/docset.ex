@@ -34,7 +34,9 @@ defmodule ExDash.Formatter.Docset do
   defp init_docset(config) do
     output = Path.expand(config.output)
 
-    docset_filename = "#{config.project} #{config.version}.docset"
+    docset_filename =
+      "#{config.project} #{config.version}.docset"
+
     docset_root = Path.join(output, docset_filename)
     docset_docpath = Path.join(docset_root, "/Contents/Resources/Documents")
     docset_sqlitepath = Path.join(docset_root, "/Contents/Resources/docSet.dsidx")
