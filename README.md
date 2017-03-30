@@ -4,21 +4,25 @@ ExDash seamlessly integrates the docs in your local elixir projects with your Da
 
 ExDash provides a mix task that rebuilds a Dash Docset for your local Elixir project.
 
-```bash
-mix docs.dash
-```
+
+### Quick Start
+
+1. add `{:ex_dash, "~> 0.1", only: :dev},` to your mix.exs deps
+1. run `mix docs.dash --open`
+1. viola! Your docs are now searchable in [Dash!](https://kapeli.com/dash) integration!
+
 
 ## The Dream
 
 The [Alfred](https://www.alfredapp.com/) + [Dash](https://kapeli.com/dash) integration
-for fast doc searching has become an integral part of our workflow at [Urbint](https://github.com/urbint).
+for fast Elixir doc searching has become an integral part of our workflow at [Urbint](https://github.com/urbint).
 
 Once our app reached a certain size,
-we wanted to be able to search our own internal documentation as easily as the public Hex docs.
+we wanted to be able to search our internal documentation as easily as the public Hex docs.
 
-Being able to more easily dogfood these docs would only encourage us to improve them.
+Being able to dogfood our own @moduledocs and function @docs helps us keep code quality higher.
 
-ExDash is a tool for closing that gap.
+ExDash is intended to make that easier.
 
 ## Installation
 
@@ -50,35 +54,29 @@ ExDash currently provides a mix task that rebuilds the docset for your local app
 mix docs.dash
 ```
 
-To auto-open the docset after it is generated, you can pass `--open` to the task.
+Options:
 
-```
-mix docs.dash --open
-```
+- `--open`: automatically runs an "open" command after the docset is built. You
+  probably don't want this command if part of an automated process (i.e. a Git hook or on file-save)
+- `--name`: Overwrite the project name when naming the docset. (Recommended for Umbrella Apps)
+- TODO: flag for automatically moving docs into the proper Dash folder (under-the-hood update)
 
-- TODO: flag for auto-moving it into the proper Dash folder, rather than opening it
+# Hacking ExDocs into Dash Docs
 
-### A git-hook, perhaps?
+The goal for this project is to provide documentation for your local app
+to the same resource as the rest of your Docs.
+We want the docs to be indistinguishable from Elixir's source and Hex's docsets.
 
-If you'd like, you can auto-update your docs everytime you pull the latest from github.
+As such, this task builds the full docs using ExDoc under the hood,
+then scrapes and find/replaces those pages into a similar (hopefully identical) style to those downloaded from Hex.
 
-```
-TODO write githook
-```
-
-# Under the hood
-
-The goal was for the docs to be indistinguishable from the rest of Elixir documentation
-provided via Hex and Dash.
-
-As such, this task builds the docs using ExDoc under the hood,
-and uses those pages as the source pages for showing the documentation.
-
-Outside of that, Dash docsets rely on two things:
+Dash docsets require:
 
   - a SQLite database for search
-  - Dash "anchors" injected into the docs pages, to populate the table of contents along the left side of Dash's view. Currently Functions, Types, Callbacks, and Macros are supported.
+  - Dash "anchors" on the doc pages to populate the Table of Contents per page
 
-These are run in succession in `ExDash..
-See `ExDash.Docset` and `ExDash.Formatter.Injector` for more.
+See `ExDash.Docset` and `ExDash.Injector` for more.
+
+If there are other Dash features you'd like supported,
+please open a PR or an Issue!
 
