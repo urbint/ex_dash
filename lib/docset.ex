@@ -5,7 +5,7 @@ defmodule ExDash.Docset do
   """
 
   alias ExDash.Docset.SQLite
-  alias ExDoc.HTML.Autolink
+  alias ExDoc.Formatter.HTML.Autolink
 
   @doc """
   build/2
