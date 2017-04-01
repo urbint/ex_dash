@@ -1,11 +1,11 @@
-defmodule ExDash.Formatter.Docset do
+defmodule ExDash.Docset do
   @moduledoc """
   Responsible for building the structure, SQLite DB, and Info.plist of a Dash Docset.
 
   """
 
-  alias ExDash.Formatter.Docset.SQLite
-  alias ExDoc.Formatter.HTML.Autolink
+  alias ExDash.Docset.SQLite
+  alias ExDoc.HTML.Autolink
 
   @doc """
   build/2

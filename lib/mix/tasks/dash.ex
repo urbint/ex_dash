@@ -20,7 +20,7 @@ defmodule Mix.Tasks.Docs.Dash do
   @spec run(args) :: String.t
   def run(args \\ []) do
     [doc_set_path] =
-      Docs.run(["-f", ExDash.Formatter])
+      Docs.run(["-f", ExDash.)
 
     auto_open? =
       Enum.any?(args, &(&1 in @auto_open_flags))

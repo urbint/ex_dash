@@ -1,4 +1,4 @@
-defmodule ExDash.Formatter.Injector do
+defmodule ExDash.Injector do
   @moduledoc """
   Injector sets Dash Anchors and makes style tweaks to passed ExDoc HTML files.
 
@@ -16,7 +16,7 @@ defmodule ExDash.Formatter.Injector do
   """
 
   alias Floki
-  alias ExDash.Formatter.Injector.{Type,Function,Callback,Macro}
+  alias ExDash.Injector.{Type,Function,Callback,Macro}
 
   @type doc_path :: String.t
   @type id :: String.t

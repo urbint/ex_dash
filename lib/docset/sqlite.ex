@@ -1,4 +1,4 @@
-defmodule ExDash.Formatter.Docset.SQLite do
+defmodule ExDash.Docset.SQLite do
   @moduledoc """
   Execute an SQL query using the sqlite3 command line utility.
 

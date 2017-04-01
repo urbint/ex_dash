@@ -1,11 +1,11 @@
-defmodule ExDash.Formatter.Injector.Type do
+defmodule ExDash.Injector.Type do
   @moduledoc """
   An Injector for identifying Elixir type specs and injecting Type anchors into ExDoc-generated files.
 
   """
 
   alias Floki
-  alias ExDash.Formatter.Injector
+  alias ExDash.Injector
 
   @behaviour Injector
 

@@ -79,6 +79,6 @@ Outside of that, Dash docsets rely on two things:
   - a SQLite database for search
   - Dash "anchors" injected into the docs pages, to populate the table of contents along the left side of Dash's view. Currently Functions, Types, Callbacks, and Macros are supported.
 
-These are run in succession in `ExDash.Formatter`.
-See `ExDash.Formatter.Docset` and `ExDash.Formatter.Injector` for more.
+These are run in succession in `ExDash..
+See `ExDash.Docset` and `ExDash.Formatter.Injector` for more.
 

@@ -1,7 +1,7 @@
-defmodule ExDash.Formatter.InjectorTest do
+defmodule ExDash.InjectorTest do
   use ExUnit.Case
 
-  alias ExDash.Formatter.Injector.{Type,Function,Callback,Macro}
+  alias ExDash.Injector.{Type,Function,Callback,Macro}
 
   @escaped_html_page "./test/formatter/page_with_callbacks.html" |> Path.expand()
 
