@@ -57,7 +57,7 @@ mix docs.dash
 Options:
 
 - `--open`: automatically runs an "open" command after the docset is built. You
-  probably don't want this command if part of an automated process (i.e. a Git hook or on file-save)
+  probably don't want this command if you run ex_dash as part of an automated process (i.e. a Git hook or on file-save)
 - `--name`: Overwrite the project name when naming the docset. (Recommended for Umbrella Apps)
 - TODO: flag for automatically moving docs into the proper Dash folder (under-the-hood update)
 
