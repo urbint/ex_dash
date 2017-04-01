@@ -6,6 +6,7 @@ defmodule Mix.Tasks.Docs.Dash do
   use Mix.Task
 
   alias Mix.Tasks.Docs
+  alias ExDash.Store
 
   @type args :: [String.t]
 
@@ -22,21 +23,15 @@ defmodule Mix.Tasks.Docs.Dash do
     {opts, _, _} =
       OptionParser.parse(args, switches: [open: :boolean, name: :string])
 
-    [{project_nodes, config}] =
-      Docs.run(["-f", ExDash])
-
     name =
       Keyword.get(opts, :name, "ExDash Generated Docset")
 
-    config =
-      if config.project == "" or not(is_nil(name)) do
-        %{config | project: name}
-      else
-        config
-      end
+    Store.start_link()
 
-    doc_set_path =
-      ExDash.build_docs(project_nodes, config)
+    Store.set(:name, name)
+
+    [doc_set_path] =
+      Docs.run(["-f", ExDash])
 
     auto_open? =
       Keyword.get(opts, :open, false)

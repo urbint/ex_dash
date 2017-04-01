@@ -35,7 +35,12 @@ defmodule ExDash.Docset do
     output = Path.expand(config.output)
 
     docset_filename =
-      "#{config.project} #{config.version}.docset"
+      case config.version do
+        "dev" ->
+          "#{config.project}.docset"
+        version ->
+          "#{config.project} #{version}.docset"
+      end
 
     docset_root = Path.join(output, docset_filename)
     docset_docpath = Path.join(docset_root, "/Contents/Resources/Documents")
@@ -88,6 +93,12 @@ defmodule ExDash.Docset do
     |> SQLite.index_item(node.id, "Exception", "#{node.id}.html")
   end
 
+  defp log(path) do
+    cwd = File.cwd!
+    Mix.shell.info [:green, "* creating ", :reset, Path.relative_to(path, cwd)]
+    path
+  end
+
   defp write_plist(config) do
     content =
       info_plist_content(config)
@@ -111,16 +122,19 @@ defmodule ExDash.Docset do
 </plist>
   """
 
-  defp info_plist_content(config) do
+  defp info_plist_content(%{project: name, version: version}) do
+    version =
+      case version do
+        "dev" ->
+          ""
+        version ->
+          version
+      end
+
     @info_plist_template
-    |> String.replace("{{CONFIG_PROJECT}}", config.project)
-    |> String.replace("{{CONFIG_VERSION}}", config.version)
+    |> String.replace("{{CONFIG_PROJECT}}", name)
+    |> String.replace("-{{CONFIG_VERSION}}", version)
+    |> String.replace(" {{CONFIG_VERSION}}", version)
   end
 
-
-  defp log(path) do
-    cwd = File.cwd!
-    Mix.shell.info [:green, "* creating ", :reset, Path.relative_to(path, cwd)]
-    path
-  end
 end

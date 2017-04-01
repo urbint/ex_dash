@@ -4,21 +4,24 @@ defmodule ExDash do
 
   """
 
-  alias ExDash.{Injector,Docset}
+  alias ExDash.{Injector,Docset,Store}
 
   @doc """
-  A run function to be called within ExDoc.
+  A run function that is called by ExDoc.
 
-  ExDoc Formatters typically build the docs here.
-  Instead, we return the required pieces to check and override a few config settings before building the docs in build_docs/2.
   """
   @spec run(list, ExDoc.Config.t) :: {list, ExDoc.Config.t}
   def run(project_nodes, config) when is_map(config) do
-    {project_nodes, config}
-  end
+    name =
+      Store.get(:name)
 
-  @spec build_docs(list, ExDoc.Config.t) :: String.t
-  def build_docs(project_nodes, config) do
+    config =
+      if config.project == "" or not(is_nil(name)) do
+        %{config | project: name}
+      else
+        config
+      end
+
     {config, docset_root_path} =
       Docset.build(project_nodes, config)
 
