@@ -16,10 +16,15 @@ defmodule ExDash do
       Store.get(:name)
 
     config =
-      if config.project == "" or not(is_nil(name)) do
-        %{config | project: name}
-      else
-        config
+      cond do
+        not is_nil(name) ->
+          %{config | project: name}
+
+        config.project == "" ->
+          %{config | project: "ExDash Generated Docset"}
+
+        true ->
+          config
       end
 
     {config, docset_root_path} =

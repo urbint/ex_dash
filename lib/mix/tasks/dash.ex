@@ -13,9 +13,10 @@ defmodule Mix.Tasks.Docs.Dash do
   @doc """
   Builds a Dash Docset for the current Mix project.
 
-  Call with `--open` to open in Dash following the build.
+  ## Options
 
-  Call with `--name NAME` to name the built docset.
+    * `--open`: opens the built docset in Dash following the build
+    * `--name NAME`: names the docset something other than the app name (recommended for umbrella apps)
 
   """
   @spec run(args) :: String.t
@@ -24,7 +25,7 @@ defmodule Mix.Tasks.Docs.Dash do
       OptionParser.parse(args, switches: [open: :boolean, name: :string])
 
     name =
-      Keyword.get(opts, :name, "ExDash Generated Docset")
+      Keyword.get(opts, :name)
 
     Store.start_link()
 

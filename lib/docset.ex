@@ -133,8 +133,7 @@ defmodule ExDash.Docset do
 
     @info_plist_template
     |> String.replace("{{CONFIG_PROJECT}}", name)
-    |> String.replace("-{{CONFIG_VERSION}}", version)
-    |> String.replace(" {{CONFIG_VERSION}}", version)
+    |> String.replace("{{CONFIG_VERSION}}", version)
   end
 
 end
