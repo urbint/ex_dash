@@ -53,7 +53,7 @@ brew install sqlite3
 ExDash currently provides a mix task that rebuilds the docset for your local app.
 
 ```
-mix docs.dash
+mix docs.dash --open --name foo_umbrella
 ```
 
 Options:
