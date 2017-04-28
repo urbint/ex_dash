@@ -4,6 +4,8 @@ ExDash seamlessly integrates the docs in your local elixir projects with your Da
 
 ExDash provides a mix task that rebuilds a Dash Docset for your local Elixir project.
 
+You can read more about the intended doc-searching workflow [in this blog post](https://medium.com/@russmatney/exdash-internal-elixir-docs-integrated-with-dash-434245fc8023)
+
 
 ### Quick Start
 
