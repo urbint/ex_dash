@@ -82,3 +82,6 @@ See `ExDash.Docset` and `ExDash.Injector` for more.
 If there are other Dash features you'd like supported,
 please open a PR or an Issue!
 
+# Much thanks to the Elixir Community
+
+This project at the start borrowed heavily from work done [by @JonGretar on ExDocDash](https://github.com/JonGretar/ExDocDash). Much thanks to Jon's code as well as [ExDoc](https://github.com/elixir-lang/ex_doc), as they both made this problem much easier to solve. A break from Jon's project was made in favor of matching the style of documents built by ExDoc. Rather than writing and styling our own templates, this just builds the ExDoc docs and hacks them into a Docset.
