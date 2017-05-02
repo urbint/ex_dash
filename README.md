@@ -9,9 +9,9 @@ You can read more about the intended doc-searching workflow [in this blog post](
 
 ### Quick Start
 
-1. add `{:ex_dash, "~> 0.1", only: :dev},` to your mix.exs deps
-1. run `mix docs.dash --open`
-1. viola! Your docs are now searchable in [Dash!](https://kapeli.com/dash) integration!
+1. Add `{:ex_dash, "~> 0.1", only: :dev},` to your mix.exs deps
+1. Run `mix docs.dash --open`
+1. Viola! Your docs are now searchable in [Dash](https://kapeli.com/dash).
 
 
 ## The Dream
