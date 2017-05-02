@@ -4,14 +4,14 @@ ExDash seamlessly integrates the docs in your local elixir projects with your Da
 
 ExDash provides a mix task that rebuilds a Dash Docset for your local Elixir project.
 
-You can read more about the intended doc-searching workflow [in this blog post](https://medium.com/@russmatney/exdash-internal-elixir-docs-integrated-with-dash-434245fc8023)
+You can read more about the intended doc-searching workflow [in this blog post](https://medium.com/@russmatney/exdash-internal-elixir-docs-integrated-with-dash-434245fc8023).
 
 
 ### Quick Start
 
 1. Add `{:ex_dash, "~> 0.1", only: :dev},` to your mix.exs deps
 1. Run `mix docs.dash --open`
-1. Viola! Your docs are now searchable in [Dash](https://kapeli.com/dash).
+1. Viola! Your docs are now searchable in [Dash](https://kapeli.com/dash)
 
 
 ## The Dream
