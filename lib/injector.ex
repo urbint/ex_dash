@@ -64,7 +64,7 @@ defmodule ExDash.Injector do
   @ex_doc_html_match_and_replace [
     {
       "<section class=\"content\"",
-      "<section class=\"content\" style=\"padding-left: 0\""
+      "<section class=\"content\" style=\"padding-left: 0;\""
     }, {
       "<button class=\"sidebar-toggle\">",
       "<button class=\"sidebar-toggle\" style=\"visibility: hidden\">"
@@ -73,7 +73,7 @@ defmodule ExDash.Injector do
       "<section class=\"sidebar\" style=\"visibility: hidden\""
     }, {
       "<div id=\"content\" class=\"content-inner\">",
-      "<div id=\"content\" class=\"content-inner\" style=\"margin: 0; padding: 3px 10px\">"
+      "<div id=\"content\" class=\"content-inner\" style=\"margin: 0; margin-top: -28px; padding: 0px 14px;\">"
     }
   ]
 
