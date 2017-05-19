@@ -15,8 +15,10 @@ defmodule Mix.Tasks.Docs.Dash do
 
   ## Options
 
-    * `--open`: opens the built docset in Dash following the build
-    * `--name NAME`: names the docset something other than the app name (recommended for umbrella apps)
+    * `--open`: opens the built docset in Dash following the build.
+      Defaults to true unless the docset exists in the `/doc` dir before the run.
+    * `--name NAME`: names the docset something other than the app name.
+      Defaults to the project name, or (if an umbrella app) the `cwd` of the mix task
 
   """
   @spec run(args) :: String.t
@@ -35,7 +37,9 @@ defmodule Mix.Tasks.Docs.Dash do
       Docs.run(["-f", ExDash])
 
     auto_open? =
-      Keyword.get(opts, :open, false)
+      Keyword.get_lazy(opts, :open, fn ->
+        Store.get(:is_new_docset)
+      end)
 
     if auto_open? do
       IO.inspect(doc_set_path, label: :opening)

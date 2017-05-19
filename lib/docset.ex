@@ -6,14 +6,16 @@ defmodule ExDash.Docset do
 
   alias ExDash.Docset.SQLite
   alias ExDoc.Formatter.HTML.Autolink
+  alias ExDash.Store
 
   @doc """
-  build/2
+  build/2 converts a list of project nodes and a config into a Dash Docset,
+  and writes that docset to your `/doc` dir.
 
-  - takes a list of project_nodes and a config
-  - initializes the directory structure and SQLite DB
-  - iterates over the project nodes while writes metadata to the DB
-  - writes content to the Info.plist
+    * takes a list of project_nodes and a config
+    * initializes the directory structure and SQLite DB
+    * iterates over the project nodes while writes metadata to the DB
+    * writes content to the Info.plist
 
   """
   @spec build(list, ExDoc.Config.t) :: {config :: ExDoc.Config.t, docset_path :: String.t}
@@ -45,6 +47,11 @@ defmodule ExDash.Docset do
     docset_root = Path.join(output, docset_filename)
     docset_docpath = Path.join(docset_root, "/Contents/Resources/Documents")
     docset_sqlitepath = Path.join(docset_root, "/Contents/Resources/docSet.dsidx")
+
+    is_new_docset? =
+      not(File.exists?(docset_root))
+
+    Store.set(:is_new_docset, is_new_docset?)
 
     {:ok, _} = File.rm_rf(docset_root)
     :ok = File.mkdir_p(docset_docpath)
