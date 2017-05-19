@@ -19,6 +19,8 @@ defmodule Mix.Tasks.Docs.Dash do
       Defaults to true unless the docset exists in the `/doc` dir before the run.
     * `--name NAME`: names the docset something other than the app name.
       Defaults to the project name, or (if an umbrella app) the `cwd` of the mix task
+    * `--abbr ABBREVIATION`: the default abbreviation to search for your docs with.
+      Default: first two characters of the project name. (i.e. `ex` for `ex_dash`).
 
   """
   @spec run(args) :: String.t
@@ -29,9 +31,13 @@ defmodule Mix.Tasks.Docs.Dash do
     name =
       Keyword.get(opts, :name)
 
+    abbr =
+      Keyword.get(opts, :abbr)
+
     Store.start_link()
 
     Store.set(:name, name)
+    Store.set(:abbreviation, abbr)
 
     [doc_set_path] =
       Docs.run(["-f", ExDash])

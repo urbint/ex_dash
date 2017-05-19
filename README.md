@@ -67,6 +67,11 @@ Options:
 - `--name`: Overwrite the project name when naming the docset.
   The name defaults to the project name, or for umbrella apps,
   the name of the directory.
+- `--abbr`: Overwrite the abbreviation for searching the docs.
+  Defaults to the first two characters of the project name.
+  Note that changing the abbreviation of the app requires
+  deleting the docset entirely from Dash (via the preferneces pane)
+  and likely running `mix docs.dash --open` to force the docset to re-index.
 
 # Hacking ExDocs into Dash Docs
 

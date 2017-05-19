@@ -120,7 +120,7 @@ defmodule ExDash.Docset do
 <dict>
 	<key>CFBundleIdentifier</key> <string>{{CONFIG_PROJECT}}-{{CONFIG_VERSION}}</string>
 	<key>CFBundleName</key> <string>{{CONFIG_PROJECT}} {{CONFIG_VERSION}}</string>
-	<key>DocSetPlatformFamily</key> <string>{{CONFIG_PROJECT}}</string>
+	<key>DocSetPlatformFamily</key> <string>{{CONFIG_PROJECT_ABBREV}}</string>
 	<key>isDashDocset</key> <true/>
 	<key>isJavaScriptEnabled</key> <true/>
 	<key>dashIndexFilePath</key> <string>index.html</string>
@@ -138,9 +138,19 @@ defmodule ExDash.Docset do
           version
       end
 
+    abbreviation =
+      case Store.get(:abbreviation) do
+        nil ->
+          name |> String.slice(0, 2)
+
+        abbr ->
+          abbr
+      end
+
     @info_plist_template
     |> String.replace("{{CONFIG_PROJECT}}", name)
     |> String.replace("{{CONFIG_VERSION}}", version)
+    |> String.replace("{{CONFIG_PROJECT_ABBREV}}", abbreviation)
   end
 
 end
