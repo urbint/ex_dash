@@ -21,7 +21,7 @@ defmodule ExDash do
           %{config | project: name}
 
         config.project == "" ->
-          %{config | project: "ExDash Generated Docset"}
+          %{config | project: default_umbrella_project_name()}
 
         true ->
           config
@@ -42,6 +42,10 @@ defmodule ExDash do
     |> Stream.filter(&String.ends_with?(&1, ends_with))
     |> Stream.map(&Path.join(output_docs_dir, &1))
     |> Enum.map(&Injector.inject_all/1)
+  end
+
+  defp default_umbrella_project_name() do
+    File.cwd!() |> Path.basename()
   end
 
 end
