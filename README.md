@@ -10,7 +10,7 @@ You can read more about the intended doc-searching workflow [in this blog post](
 ### Quick Start
 
 1. Add `{:ex_dash, "~> 0.1", only: :dev},` to your mix.exs deps
-1. Run `mix docs.dash --open`
+1. Run `mix docs.dash`
 1. Viola! Your docs are now searchable in [Dash](https://kapeli.com/dash)
 
 
@@ -53,15 +53,20 @@ brew install sqlite3
 ExDash currently provides a mix task that rebuilds the docset for your local app.
 
 ```
-mix docs.dash --open --name foo_umbrella
+mix docs.dash
 ```
+
+If the docset is being built for the first time,
+this command will finish by opening the docset via Dash.
+If the docset already exists locally,
+this command will assume that you are updating your local docs.
 
 Options:
 
-- `--open`: automatically runs an "open" command after the docset is built. You
-  probably don't want this command if you run ex_dash as part of an automated process (i.e. a Git hook or on file-save)
-- `--name`: Overwrite the project name when naming the docset. (Recommended for Umbrella Apps)
-- TODO: flag for automatically moving docs into the proper Dash folder (under-the-hood update)
+- `--open`: force the generated docset to open in dash
+- `--name`: Overwrite the project name when naming the docset.
+  The name defaults to the project name, or for umbrella apps,
+  the name of the directory.
 
 # Hacking ExDocs into Dash Docs
 
@@ -69,7 +74,7 @@ The goal for this project is to provide documentation for your local app
 to the same resource as the rest of your Docs.
 We want the docs to be indistinguishable from Elixir's source and Hex's docsets.
 
-As such, this task builds the full docs using ExDoc under the hood,
+As such, this task builds the full docs using ExDoc,
 then scrapes and find/replaces those pages into a similar (hopefully identical) style to those downloaded from Hex.
 
 Dash docsets require:
