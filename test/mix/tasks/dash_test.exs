@@ -30,7 +30,7 @@ defmodule Mix.Tasks.Docs.DashTest do
         doc_filepath
         |> File.read!()
 
-      assert String.contains?(file_content, "Mix.Tasks.Docs.Dash")
+      assert String.contains?(file_content, "mix docs.dash")
     end
 
     test "ExDash.has a Dash Anchor for its run function",

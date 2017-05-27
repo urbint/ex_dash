@@ -3,7 +3,7 @@ defmodule ExDash.InjectorTest do
 
   alias ExDash.Injector.{Type,Function,Callback,Macro}
 
-  @escaped_html_page "./test/formatter/page_with_callbacks.html" |> Path.expand()
+  @escaped_html_page "./test/page_with_callbacks.html" |> Path.expand()
 
   setup_all do
     content =
@@ -37,7 +37,7 @@ defmodule ExDash.InjectorTest do
       assert ids == type_ids
     end
 
-    test "builds matches and replacements", %{content: content, type_ids: [type_id | _rest]} do
+    test "builds matches and replacements", %{type_ids: [type_id | _rest]} do
       {match, replacement} =
         Type.match_and_anchor(type_id)
 
@@ -54,7 +54,7 @@ defmodule ExDash.InjectorTest do
       assert ids == function_ids
     end
 
-    test "builds matches and replacements", %{content: content, function_ids: [function_id | _rest]} do
+    test "builds matches and replacements", %{function_ids: [function_id | _rest]} do
       {match, replacement} =
         Function.match_and_anchor(function_id)
 
