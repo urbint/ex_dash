@@ -3,7 +3,7 @@ defmodule ExDash.Mixfile do
 
   def project do
     [app: :ex_dash,
-     version: "0.1.5",
+     version: "0.1.6",
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -32,9 +32,8 @@ defmodule ExDash.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ex_doc, "~> 0.15"},
-      {:floki, "~> 0.14.0"},
-      {:inch_ex, "~> 0.5.6", only: [:dev]},
+      {:ex_doc, "~> 0.16"},
+      {:floki, "~> 0.14.0"}
     ]
   end
 
