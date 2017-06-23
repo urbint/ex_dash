@@ -1,6 +1,7 @@
 defmodule Mix.Tasks.Docs.Dash do
   @moduledoc """
   Run ExDoc with a Dash Docs compatible formatter and output.
+
   """
 
   use Mix.Task
@@ -8,7 +9,7 @@ defmodule Mix.Tasks.Docs.Dash do
   alias Mix.Tasks.Docs
   alias ExDash.Store
 
-  @type args :: [String.t]
+  @type args :: [binary]
 
   @doc """
   Builds a Dash Docset for the current Mix project.

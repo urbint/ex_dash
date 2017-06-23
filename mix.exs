@@ -7,6 +7,7 @@ defmodule ExDash.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     source_url: "https://github.com/urbint/ex_dash",
      deps: deps(),
      package: package(),
      description: description(),
@@ -33,7 +34,8 @@ defmodule ExDash.Mixfile do
   defp deps do
     [
       {:ex_doc, "~> 0.16"},
-      {:floki, "~> 0.14.0"}
+      {:floki, "~> 0.14.0"},
+      {:cortex, "~> 0.1"}
     ]
   end
 
