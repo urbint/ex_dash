@@ -33,8 +33,8 @@ defmodule ExDash.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ex_doc, "~> 0.19.0"},
-      {:floki, "~> 0.14.0"},
+      {:ex_doc, "~> 0.21.2"},
+      {:floki, "~> 0.23.0"},
       {:cortex, "~> 0.5.0"}
     ]
   end
