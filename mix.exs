@@ -3,8 +3,8 @@ defmodule ExDash.Mixfile do
 
   def project do
     [app: :ex_dash,
-     version: "0.1.6",
-     elixir: "~> 1.4",
+     version: "0.2.0",
+     elixir: "~> 1.7",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      source_url: "https://github.com/urbint/ex_dash",
@@ -33,9 +33,9 @@ defmodule ExDash.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:ex_doc, "~> 0.16"},
-      {:floki, "~> 0.14.0"},
-      {:cortex, "~> 0.1"}
+      {:ex_doc, "~> 0.21.2"},
+      {:floki, "~> 0.23.0"},
+      {:cortex, "~> 0.5.0"}
     ]
   end
 

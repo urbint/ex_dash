@@ -1,7 +1,6 @@
 defmodule Mix.Tasks.Docs.Dash do
   @moduledoc """
   Run ExDoc with a Dash Docs compatible formatter and output.
-
   """
 
   use Mix.Task
