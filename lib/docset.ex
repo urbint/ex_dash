@@ -115,19 +115,32 @@ defmodule ExDash.Docset do
   end
 
   @info_plist_template """
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>CFBundleIdentifier</key> <string>{{CONFIG_PROJECT}}-{{CONFIG_VERSION}}</string>
-	<key>CFBundleName</key> <string>{{CONFIG_PROJECT}} {{CONFIG_VERSION}}</string>
-	<key>DocSetPlatformFamily</key> <string>{{CONFIG_PROJECT_ABBREV}}</string>
-	<key>isDashDocset</key> <true/>
-	<key>isJavaScriptEnabled</key> <true/>
-	<key>dashIndexFilePath</key> <string>index.html</string>
-	<key>DashDocSetFamily</key> <string>dashtoc</string>
-</dict>
-</plist>
+  <?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+  <plist version="1.0">
+    <dict>
+      <key>CFBundleIdentifier</key>
+      <string>{{CONFIG_PROJECT}}-{{CONFIG_VERSION}}</string>
+
+      <key>CFBundleName</key>
+      <string>{{CONFIG_PROJECT}} {{CONFIG_VERSION}}</string>
+
+      <key>DocSetPlatformFamily</key>
+      <string>{{CONFIG_PROJECT_ABBREV}}</string>
+
+      <key>isDashDocset</key>
+      <true/>
+
+      <key>isJavaScriptEnabled</key>
+      <true/>
+
+      <key>dashIndexFilePath</key>
+      <string>index.html</string>
+
+      <key>DashDocSetFamily</key>
+      <string>dashtoc</string>
+    </dict>
+  </plist>
   """
 
   defp info_plist_content(%{project: name, version: version}) do
